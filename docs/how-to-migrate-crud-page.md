@@ -7,6 +7,10 @@ We can already see 2 categories of pages that represent almost 90% of back offic
 * **Configuration** pages: forms that alter the configuration;
 * **CRUD** pages: pages with a filtereable/searchable table of data and some options to access a form of creation/edition;
 
+**Example of the Performance Configuration Form**
+
+![Performance form](../images/Performance_form.png)
+
 CRUD pages provide a lot of features.
 
 Access to a lot of data, ordered by column: this data can be simple (text) or more complex (display a thumbnail).
@@ -20,6 +24,10 @@ Finally, all tables are provided with common actions: export, access to SQL mana
 
 
 In PrestaShop, all modern CRUD pages are managed by the Grid component.
+
+**Example of the Logs grid**
+
+![Logs grid](../images/Logs_grid.png)
 
 ## The Grid component
 
