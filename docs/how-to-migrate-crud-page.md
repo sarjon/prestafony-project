@@ -7,23 +7,26 @@ We can already see 2 categories of pages that represent almost 90% of back offic
 * **Configuration** pages: forms that alter the configuration;
 * **CRUD** pages: pages with a filtereable/searchable table of data and some options to access a form of creation/edition;
 
+<br/>
+
 **Example of the Performance Configuration Form**
 
 ![Performance form](../images/Performance_form.png)
 
-CRUD pages provide a lot of features.
+### CRUD pages provide a lot of features
 
-Access to a lot of data, ordered by column: this data can be simple (text) or more complex (display a thumbnail).
-These columns are ordered and can be altered by developers: we can change position, add or remove columns for instance.
+**It provides access to a lot of data, ordered by columns:** this data can be simple (text) or more complex (display a thumbnail).
+The columns are ordered and can be altered by developers: one can change position, add or remove columns for instance.
 
-All tables are paginated and can be filtered by value for a specific column, for instance re-organize the value ordered by decreasing price.
+All tables are **paginated** and **can be sorted by value for a specific column**, for instance re-organize the value ordered by decreasing price.
 
-More, all tables can be filtered using criteria: each column may define it's filter and can be used to build the data.
+More, all tables **can be filtered using criteria**: each column may define a filter that can be used to build the data. Example: a date-picker filter for a column with timestamps.
 
-Finally, all tables are provided with common actions: export, access to SQL manager, ... and common bulk actions.
+Finally, all tables can be used with common actions: data export, access to SQL manager, ... and common bulk actions such as "select all" or "delete all".
 
-
+<br/>
 In PrestaShop, all modern CRUD pages are managed by the Grid component.
+<br/>
 
 **Example of the Logs grid**
 
@@ -31,7 +34,7 @@ In PrestaShop, all modern CRUD pages are managed by the Grid component.
 
 ## The Grid component
 
-The Grid component define for a Grid (Table + action + bulk actions) the definition of columns, the query builder used to retrieve data and how the search filters must be used to retrieve the data displayed.
+The Grid component describes, for a Grid (Table + action + bulk actions), the definition of columns, the query builder used to retrieve data and how the search filters must be used to retrieve the data displayed.
 
 Not only this give a consistent representation of the data from a "PHP/Back" point of view, but the component also provide a minimalist Twig/Javascript layer for the rendering based on a typed View model.
 
@@ -201,6 +204,8 @@ prestashop.core.grid.data_provider.foo:
 
 ## Use in the Controller and template rendering
 
+### Controller and Twig setup
+
 In Back Office controllers, you can use the Grid Factory to create a Grid and return it:
 
 ```php
@@ -230,6 +235,29 @@ class FooController extends FrameworkBundleAdminController
 
 And in the related template:
 
+
 ```twig
     {{ include('@PrestaShop/Admin/Common/Grid/grid_panel.html.twig', {'grid': grid }) }}
 ```
+
+### Javascript setup
+
+Grid features such as pagination, search, sorting are performed using Javascript. To enable them for the Grid you must include 2 Javascript assets:
+
+```twig
+{% block javascripts %}
++  {{ parent() }}
++
++  <script src="{{ asset('themes/new-theme/public/my_crud_page.bundle.js') }}"></script>
++  <script src="{{ asset('themes/default/js/bundle/pagination.js') }}"></script>
++{% endblock %}
+```
+
+- `pagination.js` handles pagination. You can include it without modifications.
+- `my_crud_page.bundle.js` handles all the other features. This is a Javascript asset file that you need to build using Webpack.
+
+#### Building the asset file
+
+Assets files are built from the directory `/admin-dev/themes/new-theme` using webpack. You must modify `webpack.config.js` to add your new asset to the build process, and create your asset using one of the existing assets in `/admin-dev/themes/new-theme/js/app/pages` as an example.
+
+To build asset files, install node modules with command `$ npm install` then build with command `$ npm run build`.
